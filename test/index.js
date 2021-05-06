@@ -10,7 +10,7 @@ app.get('/', (req, res) => {
   res.send('Server Running...');
 });
 
-const endpoints = getEndpoints(app, __dirname);
+const endpoints = getEndpoints(__dirname);
 
 for (const endpoint of endpoints) {
   app[endpoint.type](endpoint.route, endpoint.func);
