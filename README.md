@@ -1,4 +1,4 @@
-##cranny
+## cranny
 
 A Node.js server architecture with a focus on 
 isolation, segmentation, and safe request handling.
@@ -14,7 +14,7 @@ Endpoint functionality is constructed through higher-order functions.
 derived from `endpoint.js` but handle specific aspects of the corresponding
 RESTful call.
 
-###Hosting endpoints
+### Hosting endpoints
 After initializing your server (let's say an express server),
 call `getEndpoints` to collect all hostable endpoints from a given root.
 You may then host the endpoints like this:
@@ -36,7 +36,7 @@ Each endpoint has 3 properties:
 `func`: The function which is called with the `req` and `res` variables.
 
 
-###Naming Convention
+### Naming Convention
 The `getEndpoints` call looks for files which have a special suffix.
 That suffix is as follows:
 
@@ -47,7 +47,7 @@ That suffix is as follows:
 Every file which you want to represent as an endpoint should 
 have a unique name.
 
-###Benefits of architecture
+### Benefits of architecture
 Don't ever need to handle the sending of responses yourself.
 
 Don't need to handle the sending of error responses in case of error.
@@ -58,7 +58,7 @@ Endpoints can be created in isolation and never need to touch core code.
 
 Higher-order functions abstract away most of the network layer.
 
-###Samples
+### Samples
 See test directory for a sample server setup. Notice how
 `testSuccessOpen.get.js` and `testErrorOpen.get.js` are discovered
 and hosted from the index file automatically.
