@@ -1,0 +1,22 @@
+{
+  "name": "cranny",
+  "version": "1.0.0",
+  "description": "",
+  "main": "test/index.js",
+  "scripts": {
+    "start": "node test/index.js",
+    "startDev": "cross-env NODE_ENV=development nodemon test/index.js",
+    "lint": "eslint ./src"
+  },
+  "dependencies": {
+    "cors": "2.8.5",
+    "express": "4.17.1"
+  },
+  "devDependencies": {
+    "cross-env": "7.0.3",
+    "nodemon": "2.0.7"
+  },
+  "keywords": [],
+  "author": "Will Tesler",
+  "license": "ISC"
+}
