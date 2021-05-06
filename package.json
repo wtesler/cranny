@@ -1,22 +1,26 @@
 {
   "name": "cranny",
-  "version": "1.0.0",
-  "description": "",
+  "version": "1.0.2",
+  "description": "A Node.js server architecture with a focus on segmentation, isolation, and safe request handling.",
   "main": "test/index.js",
   "scripts": {
     "start": "node test/index.js",
     "startDev": "cross-env NODE_ENV=development nodemon test/index.js",
     "lint": "eslint ./src"
   },
-  "dependencies": {
-    "cors": "2.8.5",
-    "express": "4.17.1"
-  },
+  "dependencies": {},
   "devDependencies": {
     "cross-env": "7.0.3",
+    "eslint": "7.25.0",
+    "eslint-plugin-promise": "5.1.0",
     "nodemon": "2.0.7"
   },
   "keywords": [],
   "author": "Will Tesler",
-  "license": "ISC"
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/wtesler/cranny.git"
+  },
+  "homepage": "https://github.com/wtesler/cranny"
 }
