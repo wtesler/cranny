@@ -20,7 +20,7 @@ call `getEndpoints` to collect all hostable endpoints from a given root.
 You may then host the endpoints like this:
 
 ```
-const endpoints = getEndpoints(expressApp, __dirname);
+const endpoints = getEndpoints(__dirname);
 
 for (const endpoint of endpoints) {
   expressApp[endpoint.type](endpoint.route, endpoint.func);
