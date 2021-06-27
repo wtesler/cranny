@@ -3,14 +3,19 @@
  * Any file which ends in `.post.js` or '.get.js is a hosted endpoint.
  *
  * @param rootDir Top-level directory which includes the hosted endpoint files.
+ * @param types The file suffixes to look for.
  */
-module.exports = function (rootDir) {
+module.exports = function (rootDir, types=['post', 'get']) {
   const getEndpointsForType = require("./getEndpointsForType");
 
-  const postEndpoints = getEndpointsForType('post', rootDir);
-  const getEndpoints = getEndpointsForType('get', rootDir);
+  const endpointsPerType = [];
+  for (const type of types) {
+    const endpoints = getEndpointsForType(type, rootDir);
+    endpointsPerType.push(endpoints);
+  }
 
-  const endpoints = postEndpoints.concat(getEndpoints);
+  const endpoints = endpointsPerType.flat();
+
   endpoints.sort((a, b) => {
     if (a.route < b.route) {
       return -1;
@@ -29,8 +34,11 @@ module.exports = function (rootDir) {
 
   console.log();
 
-  console.log(`Total ${postEndpoints.length} POST endpoints.`);
-  console.log(`Total ${getEndpoints.length} GET endpoints.`);
+  for (let i = 0; i < types.length; i++){
+    const type = types[i];
+    console.log(`Total ${endpointsPerType[i].length} ${type} endpoints.`);
+  }
+
   console.log(`Total ${endpoints.length} endpoints.`);
 
   console.log();

@@ -12,6 +12,8 @@ const getEndpoints = require("../server/host/getEndpoints");
 
 const endpoints = getEndpoints(__dirname);
 
+console.log(endpoints);
+
 // for (const endpoint of endpoints) {
 //   app[endpoint.type](endpoint.route, endpoint.func);
 // }
