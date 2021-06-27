@@ -43,6 +43,12 @@ module.exports = function(type, serverRootDir) {
     });
   }
 
+  // Ensure no duplicate routes
+  const routes = endpoints.map(x => x.route);
+  if (routes.length !== new Set(routes).size) {
+    throw new Error(`Duplicate routes found. Here are routes: ${routes}`);
+  }
+
   return endpoints;
 };
 
