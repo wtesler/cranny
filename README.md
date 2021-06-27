@@ -58,6 +58,14 @@ Endpoints can be created in isolation and never need to touch core code.
 
 Higher-order functions abstract away most of the network layer.
 
+### Foolproof Error Handling
+Wherever you setup your environment, you can set this global variable:
+
+`global.crannyReportError = (e) => { ... }`
+
+This is the global fallback that ensures that any unexpected error in the request
+is handled/reported properly.
+
 ### Samples
 See test directory for a sample server setup. Notice how
 `testSuccessOpen.get.js` and `testErrorOpen.get.js` are discovered

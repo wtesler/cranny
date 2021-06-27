@@ -6,30 +6,38 @@ const rest = require("./rest");
  * @param handler A function which takes (req, res).
  */
 module.exports = function (handler) {
-  return rest('POST', async(req, res) => {
+  return rest('POST', async (req, res) => {
+    return new Promise((resolve, reject) => {
 
-    const buffers = [];
-    let length = 0;
+      const buffers = [];
+      let length = 0;
 
-    req.on("data", chunk => {
-      buffers.push(chunk);
-      length += chunk.length;
-    });
+      req.on("data", chunk => {
+        buffers.push(chunk);
+        length += chunk.length;
+      });
 
-    req.on("end", () => {
-      req.body = Buffer.concat(buffers, length).toString();
-      if (req.body) {
-        req.rawBody = req.body;
-        try {
-          // Since this case is so common, we try to handle it here.
-          req.body = JSON.parse(req.body);
-        } catch (e) {
-          // Everything is fine, we're just not dealing with a JSON body.
+      req.on("end", async () => {
+        req.body = Buffer.concat(buffers, length).toString();
+        if (req.body) {
+          req.rawBody = req.body;
+          try {
+            // Since this case is so common, we try to handle it here.
+            req.body = JSON.parse(req.body);
+          } catch (e) {
+            // Everything is fine, we're just not dealing with a JSON body.
+          }
+        } else {
+          req.body = {};
         }
-      } else {
-        req.body = {};
-      }
-      return handler(req, res);
+
+        try {
+          const response = await handler(req, res);
+          resolve(response);
+        } catch (e) {
+          reject(e);
+        }
+      });
     });
   });
 };

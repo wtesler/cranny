@@ -15,10 +15,10 @@ const endpoints = getEndpoints(__dirname);
 console.log(endpoints);
 
 // for (const endpoint of endpoints) {
-//   app[endpoint.type](endpoint.route, endpoint.func);
+//   app[endpoint.type](endpoint.route, endpoint.obj);
 // }
 //
-// const PORT = process.env.PORT || 8080;
+// const PORT = process.env.PORT || 8085;
 // app.listen(PORT, () => {
 //   console.log(`Server listening on port ${PORT}...`);
 // });
