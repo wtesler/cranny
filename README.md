@@ -23,7 +23,7 @@ You may then host the endpoints like this:
 const endpoints = getEndpoints(__dirname);
 
 for (const endpoint of endpoints) {
-  expressApp[endpoint.type](endpoint.route, endpoint.func);
+  expressApp[endpoint.type](endpoint.route, endpoint.obj);
 }
 ```
 
@@ -33,7 +33,7 @@ Each endpoint has 3 properties:
 
 `route`: The name of the endpoint
 
-`func`: The function which is called with the `req` and `res` variables.
+`obj`: The obj representing the required file. Often times is a function with the `req` and `res` parameters.
 
 
 ### Naming Convention

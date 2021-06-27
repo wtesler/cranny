@@ -32,14 +32,14 @@ module.exports = function(type, serverRootDir) {
     const endpointName = endpointNames[i];
     const file = files[i];
 
-    const func = require(file);
+    const obj = require(file);
 
     const endpointRoute = '/' + endpointName;
 
     endpoints.push({
       type: type,
       route: endpointRoute,
-      func: func
+      obj: obj
     });
   }
 
