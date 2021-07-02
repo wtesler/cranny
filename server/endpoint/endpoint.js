@@ -12,13 +12,12 @@ module.exports = function (handler) {
       responseContent = responseContent ? responseContent : {};
       statusCode = 200;
     } catch (e) {
-      const responseContent = { message: e.message, code: e.code };
-      responseContent.code = responseContent.code ? responseContent.code : 500;
+      responseContent = { message: e.message };
       // This is a global function (if the consumer set it).
       if (crannyReportError) {
         crannyReportError(e);
       }
-      statusCode = responseContent.code;
+      statusCode = e.code ? e.code : 500;
     }
 
     // Is it a plain object? (i.e. not a buffer, array, string etc...)

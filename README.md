@@ -73,3 +73,7 @@ and hosted from the index file automatically.
 
 After running the server locally, you can go to `http://localhost:8080/testSuccessOpen`
 to see a sample response.
+
+
+### Publish
+Published with `npm publish`
