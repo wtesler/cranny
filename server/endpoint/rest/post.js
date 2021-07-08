@@ -3,6 +3,8 @@ const rest = require("./rest");
 /**
  * Turns the provided handler function into an HTTPS REST POST function.
  *
+ * This handles the body parsing for you. If the body is already parsed, use `simplePost` instead.
+ *
  * @param handler A function which takes (req, res).
  */
 module.exports = function (handler) {
