@@ -44,12 +44,7 @@ module.exports = function (handler) {
             req.body = {};
           }
 
-          try {
-            const response = await handler(req, res);
-            resolve(response);
-          } catch (e) {
-            reject(e);
-          }
+          run();
         });
       }
     });
