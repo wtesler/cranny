@@ -26,22 +26,22 @@ module.exports = function (rootDir, types=['post', 'get']) {
     return 0;
   });
 
-  console.log();
+  // console.log();
+  //
+  // for (const endpoint of endpoints) {
+  //   console.log(`${endpoint.route} | ${endpoint.type.toUpperCase()}`);
+  // }
 
-  for (const endpoint of endpoints) {
-    console.log(`${endpoint.route} | ${endpoint.type.toUpperCase()}`);
-  }
-
-  console.log();
-
-  for (let i = 0; i < types.length; i++){
-    const type = types[i];
-    console.log(`Total ${endpointsPerType[i].length} ${type} endpoints.`);
-  }
-
-  console.log(`Total ${endpoints.length} endpoints.`);
-
-  console.log();
+  // console.log();
+  //
+  // for (let i = 0; i < types.length; i++){
+  //   const type = types[i];
+  //   console.log(`Total ${endpointsPerType[i].length} ${type} endpoints.`);
+  // }
+  //
+  // console.log(`Total ${endpoints.length} endpoints.`);
+  //
+  // console.log();
 
   return endpoints;
 };
