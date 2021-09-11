@@ -13,11 +13,17 @@ module.exports = function (handler) {
       statusCode = 200;
     } catch (e) {
       responseContent = { message: e.message };
+      statusCode = e.code;
+      if (!statusCode) {
+        statusCode = 500;
+      } else if (Number.isNaN(statusCode)) {
+        responseContent.message = `${statusCode} : ${responseContent.message}`;
+        statusCode = 500;
+      }
       // This is a global function (if the consumer set it).
       if (crannyReportError) {
         crannyReportError(e);
       }
-      statusCode = e.code ? e.code : 500;
     }
 
     // Is it a plain object? (i.e. not a buffer, array, string etc...)
