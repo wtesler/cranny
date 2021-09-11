@@ -1,6 +1,6 @@
 {
   "name": "cranny",
-  "version": "2.0.2",
+  "version": "2.0.3",
   "description": "A Node.js server architecture with a focus on segmentation, isolation, and safe request handling.",
   "main": "src/index.js",
   "dependencies": {},

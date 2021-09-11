@@ -16,8 +16,8 @@ module.exports = function (handler) {
       statusCode = e.code;
       if (!statusCode) {
         statusCode = 500;
-      } else if (Number.isNaN(statusCode)) {
-        responseContent.message = `${statusCode} : ${responseContent.message}`;
+      } else if (isNaN(statusCode)) {
+        responseContent.message = `${statusCode}: ${responseContent.message}`;
         statusCode = 500;
       }
       // This is a global function (if the consumer set it).
