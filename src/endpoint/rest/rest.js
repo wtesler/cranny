@@ -1,19 +1,21 @@
 const endpoint = require("../endpoint");
+const toPostHandler = require("./toPostHandler");
 
 /**
  * Turns the provided handler function into an HTTPS REST function.
  *
- * @param type Like 'GET' or 'POST' etc...
  * @param handler A function which takes (req, res).
  */
-module.exports = function (type, handler) {
+module.exports = function (handler) {
   return endpoint((req, res) => {
-    if (req.method !== type) {
-      const error = new Error(`Expecting ${type} request.`);
+    if (req.method === 'GET') {
+      return handler(req, res);
+    } else if (req.method === 'POST') {
+      return toPostHandler(handler, req, res);
+    } else {
+      const error = new Error(`Unexpected request method: ${req.method}`);
       error.code = 405;
       throw error;
     }
-
-    return handler(req, res);
   });
 };
