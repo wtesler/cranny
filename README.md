@@ -10,7 +10,7 @@ It handles the sending of the response including any errors which were thrown.
 
 Endpoint functionality is constructed through higher-order functions.
 
-`post.js` and `get.js` are examples of higher-order functions which are
+`rest.js` is an example of higher-order functions which are
 derived from `endpoint.js` but handle specific aspects of the corresponding
 RESTful call.
 
@@ -44,6 +44,8 @@ That suffix is as follows:
 
 `.post.js`: Indicates the function wants to be a POST endpoint.
 
+You may also pass in your own suffixes to the call.
+
 Every file which you want to represent as an endpoint should 
 have a unique name.
 
@@ -65,15 +67,6 @@ Wherever you setup your environment, you can set this global variable:
 
 This is the global fallback that ensures that any unexpected error in the request
 is handled/reported properly.
-
-### Samples
-See test directory for a sample server setup. Notice how
-`testSuccessOpen.get.js` and `testErrorOpen.get.js` are discovered
-and hosted from the index file automatically.
-
-After running the server locally, you can go to `http://localhost:8080/testSuccessOpen`
-to see a sample response.
-
 
 ### Publish
 Published with `npm publish`
