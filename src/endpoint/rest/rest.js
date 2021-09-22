@@ -9,6 +9,7 @@ const toPostHandler = require("./toPostHandler");
 module.exports = function (handler) {
   return endpoint((req, res) => {
     if (req.method === 'GET') {
+      req.body = req.query; // Normalize
       return handler(req, res);
     } else if (req.method === 'POST') {
       return toPostHandler(handler, req, res);
