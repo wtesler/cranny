@@ -3,7 +3,6 @@ module.exports = (req=null) => {
     if (req.method === "POST") {
       console.log("Missing parameters in the following body");
       console.log(req.body);
-      return;
     } else if (req.method === "GET") {
       console.log("Missing parameters in the following query");
       console.log(req.query);
