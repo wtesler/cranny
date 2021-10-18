@@ -10,7 +10,7 @@ module.exports = function (handler) {
     try {
       responseContent = await handler(req, res);
       responseContent = responseContent ? responseContent : {};
-      statusCode = 200;
+      statusCode = responseContent.statusCode ? responseContent.statusCode : 200;
     } catch (e) {
       responseContent = { message: e.message };
       statusCode = e.code;
