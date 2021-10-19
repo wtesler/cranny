@@ -10,7 +10,11 @@ module.exports = function (handler) {
     try {
       responseContent = await handler(req, res);
       responseContent = responseContent ? responseContent : {};
-      statusCode = responseContent.statusCode ? responseContent.statusCode : 200;
+      if (responseContent.statusCode && !isNaN(responseContent.statusCode)) {
+        statusCode = responseContent.statusCode;
+      } else {
+        statusCode = 200;
+      }
     } catch (e) {
       responseContent = { message: e.message };
       statusCode = e.code;
