@@ -1,14 +1,21 @@
-module.exports = function(type, serverRootDir) {
+/**
+ * Looks throughout the project for files which end in .rest.js.
+ * Those files are endpoints.
+ * Return the information about the endpoints.
+ * @param serverRootDir
+ * @return endpoint objects.
+ */
+module.exports = function(serverRootDir) {
   let ourDir = __dirname;
 
   serverRootDir = serverRootDir.replace(/\\/g, '/'); // Normalize
   ourDir = ourDir.replace(/\\/g, '/'); // Normalize
 
-  const prefix = getPathFromHereToEndpoint(serverRootDir, ourDir);
+  const prefix = _getPathFromHereToEndpoint(serverRootDir, ourDir);
 
-  const suffix = '.' + type + '.js';
+  const suffix = `.rest.js`;
 
-  const rawFiles = getAllFiles(serverRootDir, suffix);
+  const rawFiles = _getAllFiles(serverRootDir, suffix);
 
   const endpointNames = [];
 
@@ -32,7 +39,13 @@ module.exports = function(type, serverRootDir) {
     const endpointName = endpointNames[i];
     const file = files[i];
 
-    const obj = require(file);
+    let type;
+    let obj;
+    try {
+      [type, obj] = require(file);
+    } catch (e) {
+      throw new Error(`Problem with ${file}: ${e}`);
+    }
 
     const endpointRoute = '/' + endpointName;
 
@@ -49,10 +62,21 @@ module.exports = function(type, serverRootDir) {
     throw new Error(`Duplicate routes found. Here are routes: ${routes}`);
   }
 
+  // Sort endpoints by route name.
+  endpoints.sort((a, b) => {
+    if (a.route < b.route) {
+      return -1;
+    }
+    if (a.route > b.route) {
+      return 1;
+    }
+    return 0;
+  });
+
   return endpoints;
 };
 
-function getAllFiles(dirPath, suffix, arrayOfFiles=[]) {
+function _getAllFiles(dirPath, suffix, arrayOfFiles=[]) {
   const fs = require("fs");
 
   const files = fs.readdirSync(dirPath);
@@ -63,7 +87,7 @@ function getAllFiles(dirPath, suffix, arrayOfFiles=[]) {
     }
     const filePath = dirPath + "/" + file;
     if (fs.statSync(filePath).isDirectory()) {
-      arrayOfFiles = getAllFiles(filePath, suffix, arrayOfFiles)
+      arrayOfFiles = _getAllFiles(filePath, suffix, arrayOfFiles)
     } else {
       if (!file.endsWith(suffix)) {
         return;
@@ -75,8 +99,8 @@ function getAllFiles(dirPath, suffix, arrayOfFiles=[]) {
   return arrayOfFiles
 }
 
-function getPathFromHereToEndpoint(serverRootDir, ourDir) {
-  const commonPrefix = longestCommonPrefix([serverRootDir, ourDir]);
+function _getPathFromHereToEndpoint(serverRootDir, ourDir) {
+  const commonPrefix = _longestCommonPrefix([serverRootDir, ourDir]);
 
   const ourPath = ourDir.replace(commonPrefix, '');
   const ourPathParts = ourPath.split('/').filter(part => part);
@@ -94,16 +118,18 @@ function getPathFromHereToEndpoint(serverRootDir, ourDir) {
   return upDirString + serverPath;
 }
 
-function longestCommonPrefix(strs) {
+function _longestCommonPrefix(strs) {
   let prefix = ""
   if(strs === null || strs.length === 0) return prefix
 
   for (let i=0; i < strs[0].length; i++){
-    const char = strs[0][i] // loop through all characters of the very first string.
+
+    const char = strs[0][i];
 
     for (let j = 1; j < strs.length; j++){
-      // loop through all other strings in the array
-      if(strs[j][i] !== char) return prefix
+      if(strs[j][i] !== char) {
+        return prefix;
+      }
     }
     prefix = prefix + char
   }
