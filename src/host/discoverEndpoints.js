@@ -3,9 +3,10 @@
  * Those files are endpoints.
  * Return the information about the endpoints.
  * @param serverRootDir
+ * @param suffix, the type of files to look for.
  * @return endpoint objects.
  */
-module.exports = function(serverRootDir) {
+module.exports = function(serverRootDir, suffix='rest') {
   let ourDir = __dirname;
 
   serverRootDir = serverRootDir.replace(/\\/g, '/'); // Normalize
@@ -13,9 +14,9 @@ module.exports = function(serverRootDir) {
 
   const prefix = _getPathFromHereToEndpoint(serverRootDir, ourDir);
 
-  const suffix = `.rest.js`;
+  const suffixEnd = `.${suffix}.js`;
 
-  const rawFiles = _getAllFiles(serverRootDir, suffix);
+  const rawFiles = _getAllFiles(serverRootDir, suffixEnd);
 
   const endpointNames = [];
 
@@ -27,7 +28,7 @@ module.exports = function(serverRootDir) {
   }
 
   for (let i = 0; i < files.length; i++) {
-    let removedSuffix = files[i].slice(0, -suffix.length);
+    let removedSuffix = files[i].slice(0, -suffixEnd.length);
     let splitPath = removedSuffix.split("/");
     let endpointName = splitPath[splitPath.length - 1];
     endpointNames.push(endpointName);
