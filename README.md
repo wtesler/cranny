@@ -16,14 +16,15 @@ RESTful call.
 
 ### Hosting endpoints
 After initializing your server (let's say an express server),
-call `getEndpoints` to collect all hostable endpoints from a given root.
+call `discoverEndpoints` to collect all hostable endpoints from a given root.
 You may then host the endpoints like this:
 
 ```
-const endpoints = getEndpoints(__dirname);
+const endpoints = discoverEndpoints(__dirname);
 
 for (const endpoint of endpoints) {
-  expressApp[endpoint.type](endpoint.route, endpoint.obj);
+  console.log(`${endpoint.route} | ${endpoint.type.toUpperCase()}`);
+  app[endpoint.type](endpoint.route, endpoint.obj);
 }
 ```
 
@@ -37,14 +38,10 @@ Each endpoint has 3 properties:
 
 
 ### Naming Convention
-The `getEndpoints` call looks for files which have a special suffix.
+The `discoverEndpoints` call looks for files which have a special suffix `.rest.js`.
 That suffix is as follows:
 
-`.get.js`: Indicates the function wants to be a GET endpoint.
-
-`.post.js`: Indicates the function wants to be a POST endpoint.
-
-You may also pass in your own suffixes to the call.
+You may also pass in your own suffixes to the call to get different endpoints.
 
 Every file which you want to represent as an endpoint should 
 have a unique name.
