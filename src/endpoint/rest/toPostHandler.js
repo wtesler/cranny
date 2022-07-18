@@ -1,5 +1,5 @@
 module.exports = async function (handler, req, res) {
-  return new Promise((resolve, reject) => {
+  return new Promise(async(resolve, reject) => {
     const run = async () => {
       try {
         const response = await handler(req, res);
@@ -10,7 +10,7 @@ module.exports = async function (handler, req, res) {
     }
 
     if (req.body) {
-      run();
+      await run();
     } else {
       const buffers = [];
       let length = 0;
@@ -34,7 +34,7 @@ module.exports = async function (handler, req, res) {
           req.body = {};
         }
 
-        run();
+        await run();
       });
     }
   });

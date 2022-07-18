@@ -10,9 +10,33 @@ It handles the sending of the response including any errors which were thrown.
 
 Endpoint functionality is constructed through higher-order functions.
 
-`rest.js` is an example of higher-order functions which are
-derived from `endpoint.js` but handle specific aspects of the corresponding
-RESTful call.
+`rest.js` is an example of a higher-order function derived from `endpoint.js` 
+that handles specific RESTful aspects of the corresponding call.
+
+### Endpoint creation
+
+The files which represent endpoints should either export an array which may look like:
+
+```
+const {rest} = require('cranny');
+module.exports = [
+  'post', // type
+  rest(async (req, res) => {
+    const someFunction = require('../someFunction');
+    return await someFunction(); // Returns an object or null.
+  })
+];
+```
+
+or just a function like this:
+
+```
+const {rest} = require('cranny');
+module.exports = rest(async (req, res) => {
+  const someFunction = require('../someFunction');
+  return await someFunction(req); // Returns an object or null.
+});
+```
 
 ### Hosting endpoints
 After initializing your server (let's say an express server),
@@ -23,7 +47,6 @@ You may then host the endpoints like this:
 const endpoints = discoverEndpoints(__dirname);
 
 for (const endpoint of endpoints) {
-  console.log(`${endpoint.route} | ${endpoint.type.toUpperCase()}`);
   app[endpoint.type](endpoint.route, endpoint.obj);
 }
 ```
@@ -39,7 +62,6 @@ Each endpoint has 3 properties:
 
 ### Naming Convention
 The `discoverEndpoints` call looks for files which have a special suffix `.rest.js`.
-That suffix is as follows:
 
 You may also pass in your own suffixes to the call to get different endpoints.
 
