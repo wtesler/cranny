@@ -59,13 +59,13 @@ const restEndpoints = discoverEndpoints(__dirname, 'rest');
 const justRouteName = route => route.replace('/', '');
 
 for (const endpoint of restEndpoints) {
-const funcName = justRouteName(endpoint.route);
-const func = endpoint.obj;
-exports[funcName] = functions.region('us-central1').https.onRequest(async (req, res) => {
-  cors(req, res, async () => {
-    await func(req, res);
-  });
-});
+    const funcName = justRouteName(endpoint.route);
+    const func = endpoint.obj;
+    exports[funcName] = functions.region('us-central1').https.onRequest(async (req, res) => {
+      cors(req, res, async () => {
+        await func(req, res);
+      });
+    });
 }
 ```
 
