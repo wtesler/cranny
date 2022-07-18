@@ -54,27 +54,25 @@ module.exports = function (serverRootDir, suffix = 'rest') {
       throw new Error(`Problem with ${file}: ${e}`);
     }
 
-    const endpointRoute = '/' + endpointName;
-
     endpoints.push({
       type: type,
-      route: endpointRoute,
+      name: endpointName,
       obj: obj
     });
   }
 
-  // Ensure no duplicate routes
-  const routes = endpoints.map(x => x.route);
-  if (routes.length !== new Set(routes).size) {
-    throw new Error(`Duplicate routes found. Here are routes: ${routes}`);
+  // Ensure no duplicate names
+  const names = endpoints.map(x => x.name);
+  if (names.length !== new Set(names).size) {
+    throw new Error(`Duplicate names found. Here are names: ${names}`);
   }
 
-  // Sort endpoints by route name.
+  // Sort endpoints by name.
   endpoints.sort((a, b) => {
-    if (a.route < b.route) {
+    if (a.name < b.name) {
       return -1;
     }
-    if (a.route > b.route) {
+    if (a.name > b.name) {
       return 1;
     }
     return 0;
