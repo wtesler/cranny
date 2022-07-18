@@ -6,7 +6,7 @@
  * @param suffix, the type of files to look for.
  * @return endpoint objects.
  */
-module.exports = function(serverRootDir, suffix='rest') {
+module.exports = function (serverRootDir, suffix = 'rest') {
   let ourDir = __dirname;
 
   serverRootDir = serverRootDir.replace(/\\/g, '/'); // Normalize
@@ -43,7 +43,13 @@ module.exports = function(serverRootDir, suffix='rest') {
     let type;
     let obj;
     try {
-      [type, obj] = require(file);
+      const requireResponse = require(file);
+      if (Array.isArray(requireResponse)) {
+        [type, obj] = requireResponse;
+      } else {
+        type = null;
+        obj = requireResponse;
+      }
     } catch (e) {
       throw new Error(`Problem with ${file}: ${e}`);
     }
@@ -77,7 +83,7 @@ module.exports = function(serverRootDir, suffix='rest') {
   return endpoints;
 };
 
-function _getAllFiles(dirPath, suffix, arrayOfFiles=[]) {
+function _getAllFiles(dirPath, suffix, arrayOfFiles = []) {
   const fs = require("fs");
 
   const files = fs.readdirSync(dirPath);
@@ -121,14 +127,14 @@ function _getPathFromHereToEndpoint(serverRootDir, ourDir) {
 
 function _longestCommonPrefix(strs) {
   let prefix = ""
-  if(strs === null || strs.length === 0) return prefix
+  if (strs === null || strs.length === 0) return prefix
 
-  for (let i=0; i < strs[0].length; i++){
+  for (let i = 0; i < strs[0].length; i++) {
 
     const char = strs[0][i];
 
-    for (let j = 1; j < strs.length; j++){
-      if(strs[j][i] !== char) {
+    for (let j = 1; j < strs.length; j++) {
+      if (strs[j][i] !== char) {
         return prefix;
       }
     }
