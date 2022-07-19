@@ -44,24 +44,39 @@ call `discoverEndpoints` to collect all hostable endpoints from a given root.
 You may then host the endpoints like this:
 
 ```
+const express = require('express');
+const {discoverEndpoints, rest} = require('cranny');
+
 const endpoints = discoverEndpoints(__dirname);
 
+const app = express();
+
 for (const endpoint of endpoints) {
-  app[endpoint.type](`/${endpoint.name}`, endpoint.obj);
+    const type = endpoint.type;
+    const name = endpoint.name;
+    const func = endpoint.obj;
+    app[type](`/${name}`, rest(func));
 }
 ```
 
 or for Firebase cloud functions for example:
 
 ```
-const restEndpoints = discoverEndpoints(__dirname, 'rest');
+const functions = require('firebase-functions');
+const {discoverEndpoints, rest} = require('cranny');
+
+const cors = require('cors')({
+origin: true
+});
+
+const restEndpoints = discoverEndpoints(__dirname);
 
 for (const endpoint of restEndpoints) {
     const name = endpoint.name;
     const func = endpoint.obj;
     exports[name] = functions.region('us-central1').https.onRequest(async (req, res) => {
       cors(req, res, async () => {
-        await func(req, res);
+        await rest(func(req, res));
       });
     });
 }
@@ -69,7 +84,7 @@ for (const endpoint of restEndpoints) {
 
 Each endpoint has 3 properties:
 
-`type`: The type of the endpoint (like 'get' or 'post')
+`type`: The type of the endpoint (like 'get' or 'post'). May be excluded/null.
 
 `name`: The name of the endpoint
 
