@@ -10,6 +10,9 @@ module.exports = async function (handler, req, res) {
     }
 
     if (req.body) {
+      if (!req.rawBody) {
+        req.rawBody = req.body
+      }
       await run();
     } else {
       const buffers = [];
@@ -32,6 +35,7 @@ module.exports = async function (handler, req, res) {
           }
         } else {
           req.body = {};
+          req.rawBody = "";
         }
 
         await run();
