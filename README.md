@@ -55,7 +55,7 @@ for (const endpoint of endpoints) {
     const type = endpoint.type;
     const name = endpoint.name;
     const func = endpoint.obj;
-    app[type](`/${name}`, rest(func));
+    app[type](`/${name}`, func);
 }
 ```
 
