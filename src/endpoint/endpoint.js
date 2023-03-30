@@ -17,7 +17,7 @@ module.exports = function (handler) {
       }
     } catch (e) {
       responseContent = { message: e.message };
-      statusCode = e.code;
+      statusCode = e.code ? e.code : e.statusCode;
       if (!statusCode) {
         statusCode = 500;
       } else if (isNaN(statusCode)) {
