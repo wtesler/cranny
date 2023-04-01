@@ -36,7 +36,9 @@ module.exports = function (handler) {
       // If a endpoint wants to return another type, they have to set
       // the header themselves.
       responseContent.code = statusCode;
-      res.setHeader("Content-Type", "application/json");
+      if (!res.headersSent) {
+        res.setHeader("Content-Type", "application/json");
+      }
       responseContent = JSON.stringify(responseContent);
     }
 
