@@ -9,7 +9,7 @@ module.exports = function (handler) {
     let statusCode;
     try {
       responseContent = await handler(req, res);
-      responseContent = responseContent ? responseContent : {};
+      responseContent = (responseContent !== null && responseContent !== undefined) ? responseContent : {};
       if (responseContent.statusCode && !isNaN(responseContent.statusCode)) {
         statusCode = responseContent.statusCode;
       } else {
