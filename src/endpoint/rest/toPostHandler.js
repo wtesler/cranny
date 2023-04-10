@@ -1,8 +1,8 @@
-module.exports = async function (handler, req, res) {
+module.exports = async function (handler, req, res, signal) {
   return new Promise(async(resolve, reject) => {
     const run = async () => {
       try {
-        const response = await handler(req, res);
+        const response = await handler(req, res, signal);
         resolve(response);
       } catch (e) {
         reject(e);

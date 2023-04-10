@@ -8,7 +8,13 @@ module.exports = function (handler) {
     let responseContent;
     let statusCode;
     try {
-      responseContent = await handler(req, res);
+      const abortController = new AbortController();
+      const signal = abortController.signal;
+      req.connection.on('close', function() {
+        abortController.abort()
+      });
+
+      responseContent = await handler(req, res, signal);
       responseContent = (responseContent !== null && responseContent !== undefined) ? responseContent : {};
       if (responseContent.statusCode && !isNaN(responseContent.statusCode)) {
         statusCode = responseContent.statusCode;
