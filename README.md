@@ -21,7 +21,7 @@ The files which represent endpoints should either export an array which may look
 const {rest} = require('cranny');
 module.exports = [
   'post', // type
-  rest(async (req, res) => {
+  rest(async (req, res, signal) => {
     const someFunction = require('../someFunction');
     return await someFunction(); // Returns an object or null.
   })
@@ -32,7 +32,7 @@ or just a function like this:
 
 ```
 const {rest} = require('cranny');
-module.exports = rest(async (req, res) => {
+module.exports = rest(async (req, res, signal) => {
   const someFunction = require('../someFunction');
   return await someFunction(req); // Returns an object or null.
 });
@@ -88,7 +88,13 @@ Each endpoint has 3 properties:
 
 `name`: The name of the endpoint
 
-`obj`: The obj representing the required file. Often times is a function with the `req` and `res` parameters.
+`obj`: The obj representing the required file. Often times is a function with the `req`, `res`, and optional `signal` parameters.
+
+
+### Signal parameter
+
+You endpoints can take advantage of the abort signal which is passed in next to `req`, and `res`.
+The abort signal will fire when the user ends the connection prematurely. It can act as an interrupt.
 
 
 ### Naming Convention
