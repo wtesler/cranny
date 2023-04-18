@@ -11,7 +11,11 @@ module.exports = function (handler) {
       const abortController = new AbortController();
       const signal = abortController.signal;
       req.connection.on('close', function() {
-        abortController.abort()
+        try {
+          abortController.abort()
+        } catch (e) {
+          console.error("Abort caused an error.", e);
+        }
       });
 
       responseContent = await handler(req, res, signal);
