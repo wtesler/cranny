@@ -34,9 +34,18 @@ module.exports = function (handler) {
         responseContent.message = `${statusCode}: ${responseContent.message}`;
         statusCode = 500;
       }
+
       // This is a global function (if the consumer set it).
       if (global.crannyReportError) {
         await global.crannyReportError(e);
+      } else {
+        try {
+          if (crannyReportError) {
+            await crannyReportError(e);
+          }
+        } catch (e) {
+          console.error(e);
+        }
       }
     }
 
