@@ -35,8 +35,8 @@ module.exports = function (handler) {
         statusCode = 500;
       }
       // This is a global function (if the consumer set it).
-      if (crannyReportError) {
-        await crannyReportError(e);
+      if (global.crannyReportError) {
+        await global.crannyReportError(e);
       }
     }
 
