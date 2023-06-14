@@ -36,7 +36,7 @@ module.exports = function (handler) {
       }
       // This is a global function (if the consumer set it).
       if (crannyReportError) {
-        crannyReportError(e);
+        await crannyReportError(e);
       }
     }
 
