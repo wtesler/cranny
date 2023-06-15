@@ -9,9 +9,9 @@ module.exports = function(handler, secret) {
   const rest = require('../rest/rest');
 
   return rest(async (req, res) => {
-    const _secret = req.body._secret;
+    const authorization = req.header.Authorization;
 
-    if (!_secret || _secret !== secret) {
+    if (!authorization || authorization !== secret) {
       res.status(403).send({ code: 403, message: 'Access Denied.' });
       return Promise.resolve();
     }
