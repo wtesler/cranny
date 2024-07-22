@@ -13,7 +13,7 @@ module.exports = async function (handler, req, res, signal) {
       if (Buffer.isBuffer(req.body)) {
         onBufferFinished(req, req.body);
       } else if (!req.rawBody) {
-        req.rawBody = req.body.toString();
+        req.rawBody = req.body;
       }
       await run();
     } else {
@@ -35,9 +35,9 @@ module.exports = async function (handler, req, res, signal) {
 }
 
 function onBufferFinished(req, buffer) {
+  req.rawBody = req.body;
   req.body = buffer.toString();
   if (req.body) {
-    req.rawBody = req.body;
     try {
       // Since this case is so common, we try to handle it here.
       req.body = JSON.parse(req.body);
@@ -46,6 +46,6 @@ function onBufferFinished(req, buffer) {
     }
   } else {
     req.body = {};
-    req.rawBody = '';
+    req.rawBody = new Buffer();
   }
 }
