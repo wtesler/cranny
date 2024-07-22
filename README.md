@@ -47,9 +47,11 @@ You may then host the endpoints like this:
 const express = require('express');
 const {discoverEndpoints, rest} = require('cranny');
 
-const endpoints = discoverEndpoints(__dirname);
-
 const app = express();
+app.use(express.raw({ type: 'application/json', limit: '10mb' }));
+app.use(cors());
+
+const endpoints = discoverEndpoints(__dirname);
 
 for (const endpoint of endpoints) {
     const type = endpoint.type;
@@ -64,10 +66,6 @@ or for Firebase cloud functions for example:
 ```
 const functions = require('firebase-functions');
 const {discoverEndpoints, rest} = require('cranny');
-
-const cors = require('cors')({
-origin: true
-});
 
 const restEndpoints = discoverEndpoints(__dirname);
 
